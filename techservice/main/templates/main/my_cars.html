@@ -1,0 +1,41 @@
+{% extends 'main/base.html' %}
+
+{% block title %}
+Главная
+{% endblock %}
+
+{% block main_info_bl %}
+
+<div class="center_block text-center">
+    {% if user.is_authenticated %}
+    {% for car in user_cars %}
+    <h1>{{ car.car_name }} {{ car.car_color }} {{ car.car_mileage }}</h1>
+    <h1>Сделать вид товаров</h1>
+    {% endfor %}
+
+    <table class="table table-bordered table-dark">
+            <thead>
+            <tr>
+                <th scope="col"><h3>Машина</h3></th>
+                <th scope="col"><h3>Цвет</h3></th>
+                <th scope="col"><h3>Пробег</h3></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for car in user_cars %}
+            <tr>
+                <th scope="row"><h3>{{ car.car_name }}</h3></th>
+                <td>{{ car.car_color }}</td>
+                <td>{{ car.car_mileage }}</td>
+            </tr>
+            {% endfor %}
+
+
+            </tbody>
+        </table>
+    {% endif %}
+
+
+</div>
+
+{% endblock %}

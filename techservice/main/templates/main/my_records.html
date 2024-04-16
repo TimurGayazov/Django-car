@@ -1,0 +1,37 @@
+{% extends 'main/base.html' %}
+
+{% block title %}
+Мои записи
+{% endblock %}
+
+{% block main_info_bl %}
+
+<div class="center_block text-center">
+    {% if user.is_authenticated %}
+    {% for record in user_records %}
+    <h1>{{ record.record_maintenance_type }} {{ record.record_maintenance_date }} {{ record.record_car.car_name }}</h1>
+    {% endfor %}
+    <table class="table table-bordered table-dark">
+            <thead>
+            <tr>
+                <th scope="col"><h3>Дата</h3></th>
+                <th scope="col"><h3>Вид тех. обслуживания</h3></th>
+                <th scope="col"><h3>Машина</h3></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for record in user_records %}
+            <tr>
+                <th scope="row"><h3>{{ record.record_maintenance_date }}</h3></th>
+                <td>{{ record.record_maintenance_type }}</td>
+                <td>{{ record.record_car.car_name }}</td>
+            </tr>
+            {% endfor %}
+
+
+            </tbody>
+        </table>
+    {% endif %}
+</div>
+
+{% endblock %}
