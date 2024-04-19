@@ -1,0 +1,22 @@
+{% extends 'main/base.html' %}
+
+{% block title %}
+Обновить пробег
+{% endblock %}
+
+{% block main_info_bl %}
+<div class="form_block">
+    <h2 class="text-center border-bottom">Обновить пробег</h2>
+    <form method="POST">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label class="form-label">Пробег:</label>
+            {{ form.car_mileage }}
+        </div>
+
+        <div class="text-center border-top">
+            <button type="submit" class="btn btn-outline-success mt-3">Обновить пробег</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

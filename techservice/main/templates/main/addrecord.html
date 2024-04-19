@@ -1,0 +1,37 @@
+{% extends 'main/base.html' %}
+
+{% block title %}
+Добавить запись
+{% endblock %}
+
+{% block main_info_bl %}
+
+<div class="form_block">
+    <h1 class="text-center">Добавить запись</h1>
+    <br>
+    <form method="GET" action="{% url 'addrecord' user_car.id %}">
+        <label>Вид тех. обслуживания</label>
+        <select class="form-select" aria-label="Default select example" name="record_maintenance_type">
+            {% for type in types %}
+            <option>{{ type.maintenance_name }}</option>
+            {% endfor %}
+        </select>
+        <br>
+        <h4>Дата</h4>
+        <input type="date" name="record_maintenance_date" class="form-control datepicker" placeholder="Дата">
+        <br>
+        <div class="text-center">
+            <button type="submit" class="btn btn-outline-light">
+                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor"
+                     class="bi bi-plus-lg" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd"
+                          d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2"/>
+                </svg>
+
+            </button>
+        </div>
+    </form>
+</div>
+
+
+{% endblock %}

@@ -1,41 +1,103 @@
 {% extends 'main/base.html' %}
 
 {% block title %}
-Главная
+Мои машины
 {% endblock %}
 
 {% block main_info_bl %}
 
 <div class="center_block text-center">
-    {% if user.is_authenticated %}
-    {% for car in user_cars %}
-    <h1>{{ car.car_name }} {{ car.car_color }} {{ car.car_mileage }}</h1>
-    <h1>Сделать вид товаров</h1>
-    {% endfor %}
-
-    <table class="table table-bordered table-dark">
-            <thead>
-            <tr>
-                <th scope="col"><h3>Машина</h3></th>
-                <th scope="col"><h3>Цвет</h3></th>
-                <th scope="col"><h3>Пробег</h3></th>
-            </tr>
-            </thead>
-            <tbody>
+    <div class="mycars_block">
+        <a href="{% url 'create_car' %}" class="btn btn-outline-dark">
+            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-plus-lg"
+                 viewBox="0 0 16 16">
+                <path fill-rule="evenodd"
+                      d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2"/>
+            </svg>
+        </a>
+        <div class="row row-cols-1 row-cols-md-2 g-4">
             {% for car in user_cars %}
-            <tr>
-                <th scope="row"><h3>{{ car.car_name }}</h3></th>
-                <td>{{ car.car_color }}</td>
-                <td>{{ car.car_mileage }}</td>
-            </tr>
+            <div class="col">
+                <div class="car_card">
+                    {% if car.car_image %}
+                    <img src="{{ car.car_image.url}}" class="img-fluid mx-auto d-block" alt="..."
+                         style="border-radius:10px; width:400px; height:250px; margin:auto;">
+                    {% else %}
+                    <h2 class="text-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor"
+                             class="bi bi-image"
+                             viewBox="0 0 16 16">
+                            <path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
+                            <path d="M2.002 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2h-12zm12 1a1 1 0 0 1 1 1v6.5l-3.777-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12V3a1 1 0 0 1 1-1h12z"/>
+                        </svg>
+                        Image Error
+                    </h2>
+                    {% endif %}
+                    <h2 class="border-bottom text-center">{{ car.car_name }}</h2>
+
+                    <h4>Цвет: {{ car.car_color }}</h4>
+                    <h4>Пробег: {{ car.car_mileage }} км.</h4>
+                    <br>
+                    <div class="text-center">
+                        <a href="{% url 'carrecords' car.id%}" class="btn btn-outline-light mb-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor"
+                                 class="bi bi-eye" viewBox="0 0 16 16">
+                                <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13 13 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5s3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5s-3.879-1.168-5.168-2.457A13 13 0 0 1 1.172 8z"/>
+                                <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0"/>
+                            </svg>
+                        </a>
+                        <a href="{% url 'update_mileage' car.id %}" class="btn btn-outline-light mb-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor"
+                                 class="bi bi-pen"
+                                 viewBox="0 0 16 16">
+                                <path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001zm-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708l-1.585-1.585z"/>
+                            </svg>
+                        </a>
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn btn-outline-light mb-3" data-bs-toggle="modal"
+                                data-bs-target="#modal{{ car.id }}">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor"
+                                 class="bi bi-trash3" viewBox="0 0 16 16">
+                                <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
             {% endfor %}
-
-
-            </tbody>
-        </table>
-    {% endif %}
-
+        </div>
+    </div>
 
 </div>
 
+
+<!-- Modal -->
+{% for car in user_cars %}
+<div class="modal fade" id="modal{{ car.id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content bg-dark">
+            <div class="modal-header  bg-dark">
+                <div style="margin: auto;">
+                    <h3 class="modal-title" id="exampleModalLabel">Подтвердите действие</h3>
+                </div>
+            </div>
+            <div class="modal-body  bg-dark">
+                <h4>В случае удаления автомобиля ({{ car.car_name }}) будут удалены все записи связанные с ним.</h4>
+                <br>
+                <h4>Вы действительно ходите удалить?</h4>
+            </div>
+            <div style="display: flex; margin: auto;">
+                <button class="btn btn-outline-light" style="margin-right: 10px;" type="button" data-bs-dismiss="modal">
+                    Нет
+                </button>
+                <a href="{% url 'delcar' car.id %}" class="btn btn-outline-light">
+                    Да
+                </a>
+            </div>
+            <br>
+
+        </div>
+    </div>
+</div>
+{% endfor %}
 {% endblock %}

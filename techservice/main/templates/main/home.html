@@ -8,13 +8,15 @@
 
 <div class="center_block text-center">
     {% if user.is_authenticated %}
-    {% for car in user_cars %}
-    <h1>{{ car.car_name }} {{ car.car_color }} {{ car.car_mileage }}</h1>
-    {% endfor %}
-
-    {% for record in user_records %}
-    <h1>{{ record.record_maintenance_type }} {{ record.record_maintenance_date }} {{ record.record_car.car_name }}</h1>
-    {% endfor %}
+    <div class="home_block">
+        <h1>Сервис для учета технического обслуживания ваших автомобилей.</h1>
+    </div>
+    {% else %}
+    <div class="home_block">
+        <h1>Сервис для учета технического обслуживания ваших автомобилей.</h1>
+        <br>
+        <h3>Войдите в аккаунт чтобы пользоваться нашим сервисом.</h3>
+    </div>
     {% endif %}
 </div>
 

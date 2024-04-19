@@ -12,7 +12,7 @@ class Car(models.Model):
     car_image = models.ImageField('Изображение', upload_to='car_img/', null=True, blank=True)
     car_name = models.CharField('Название', max_length=100)
     car_color = models.CharField('Цвет', max_length=100)
-    car_mileage = models.CharField('Текущий пробег', max_length=100)
+    car_mileage = models.IntegerField('Текущий пробег', max_length=7, default=0)
     car_user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
@@ -25,6 +25,7 @@ class Car(models.Model):
 
 class TypeMaintenance(models.Model):
     maintenance_name = models.CharField('Название технического обслуживания', max_length=200)
+    maintenance_mileage = models.IntegerField('Рекомендованная периодичность (пробег)', max_length=7, default=0)
 
     def __str__(self):
         return f'{self.maintenance_name}'
@@ -39,6 +40,7 @@ class RecordMaintenance(models.Model):
     record_maintenance_type = models.ForeignKey(TypeMaintenance, on_delete=models.CASCADE, null=True)
     record_maintenance_date = models.DateField('Дата технического обслуживания')
     record_car = models.ForeignKey(Car, on_delete=models.CASCADE, null=True)
+    record_car_mileage = models.IntegerField('Пробег автомобиля на данный момент', max_length=7, default=0)
 
     def __str__(self):
         return f'{self.record_car} {self.record_maintenance_type}'
@@ -46,3 +48,16 @@ class RecordMaintenance(models.Model):
     class Meta:
         verbose_name = 'Запись технического обслуживания'
         verbose_name_plural = 'Записи технического обслуживания'
+
+
+class Notification(models.Model):
+    maintenance_type = models.ForeignKey(TypeMaintenance, on_delete=models.CASCADE, null=True)
+    record_car = models.ForeignKey(Car, on_delete=models.CASCADE, null=True)
+    car_mileage = models.IntegerField('Пробег проведения тех. обслуживания', max_length=7, default=0)
+
+    def __str__(self):
+        return f'{self.record_car} {self.maintenance_type}'
+
+    class Meta:
+        verbose_name = 'Уведомление'
+        verbose_name_plural = 'Уведомления'

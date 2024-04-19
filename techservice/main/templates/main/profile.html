@@ -1,10 +1,21 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'main/base.html' %}
 
-</body>
-</html>
+{% block title %}
+Профиль | {{ user.username }}
+{% endblock %}
+
+{% block main_info_bl %}
+
+<div class="center_block text-center">
+    <div class="profile_block">
+        <h3>Username: {{ user.username }}</h3>
+        <h3>Имя: {{ user.first_name }}</h3>
+        <h3>Фамилия: {{ user.last_name }}</h3>
+        <h3>E-mail: {{ user.email }}</h3>
+        <h3>Количество машин: {{ user_cars|length }}</h3>
+        <h3>Количество записей: {{ user_records|length }}</h3>
+
+    </div>
+</div>
+
+{% endblock %}

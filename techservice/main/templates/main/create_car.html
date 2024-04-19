@@ -1,0 +1,33 @@
+{% extends 'main/base.html' %}
+
+{% block title %}
+Добавить автомобиль
+{% endblock %}
+
+{% block main_info_bl %}
+<div class="form_block">
+    <h2 class="text-center border-bottom">Добавить автомобиль</h2>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label class="form-label">Изображение:</label>
+            {{ form.car_image }}
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Название:</label>
+            {{ form.car_name }}
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Цвет:</label>
+            {{ form.car_color }}
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Пробег:</label>
+            {{ form.car_mileage }}
+        </div>
+        <div class="text-center border-top">
+            <button type="submit" class="btn btn-outline-light mt-3">Добавить</button>
+        </div>
+    </form>
+</div>
+{% endblock %}
